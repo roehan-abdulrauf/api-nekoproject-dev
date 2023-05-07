@@ -1,0 +1,45 @@
+<mxfile host="65bd71144e">
+    <diagram id="Kk7K6myvkAPUQB5SozgS" name="Page-1">
+        <mxGraphModel dx="936" dy="486" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="id&lt;br&gt;pseudo&lt;br&gt;mail&lt;br&gt;password&lt;br&gt;image&lt;br&gt;id_role" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="120" width="120" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="users" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="120" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="id&lt;br&gt;texte&lt;br&gt;date&lt;br&gt;updated_at&lt;br&gt;created_at&lt;br&gt;id_user" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="120" width="120" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="messages" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="120" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="id&lt;br&gt;role" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="420" width="120" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="role" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="420" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="" style="curved=1;endArrow=classic;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="7" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="470" y="490" as="sourcePoint"/>
+                        <mxPoint x="220" y="277" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="120" y="277"/>
+                            <mxPoint x="140" y="277"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="11" value="" style="curved=1;endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="2" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="110" y="410" as="sourcePoint"/>
+                        <mxPoint x="700" y="220" as="targetPoint"/>
+                        <Array as="points"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
