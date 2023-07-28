@@ -37,7 +37,11 @@ const userSchema = mongoose.Schema({
     mailVerified: {
         type: String,
         default: 'false',
-    }
+    },
+    mailVerificationCode: {
+        type: String,
+        required: true
+    },
 },
     {
         timestamps: true

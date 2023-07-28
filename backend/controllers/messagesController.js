@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const Message = require('../models/messageModel');
 const User = require('../models/userModel');
+// const ChatRoom = require('../models/chatRoomModel');
 const { body, validationResult } = require('express-validator');
 const io = require('../server');
 
@@ -53,21 +54,23 @@ const setMessage = asyncHandler(async (req, res) => {
             user: req.user.id,
             userPseudo: req.user.pseudo,
             text: req.body.text,
+            chatRoomId: req.body.chatRoomId,
         })
 
         let socketMessage = await Message.findById(message._id).populate('user');
 
         const msg = {
-            _id:socketMessage._id,
-            user:message.user,
-            userPseudo:message.userPseudo,
-            text:message.text,
-            isValid:message.isValid,
-            createdAt:message.createdAt,
-            updatedAt:message.updatedAt
+            _id: socketMessage._id,
+            user: message.user,
+            userPseudo: message.userPseudo,
+            text: message.text,
+            isValid: message.isValid,
+            createdAt: message.createdAt,
+            updatedAt: message.updatedAt,
+            chatRoom: message.chatRoom
         }
         // Code pour envoyer des données au client
-        io.emit("socket_message",(msg));
+        io.emit("socket_message", (msg));
         console.log("socket message envoyé", msg);
         res.status(200).json(message);
     }
@@ -75,7 +78,7 @@ const setMessage = asyncHandler(async (req, res) => {
 
 
 // @desc Modifier un message
-// @route POST /api/messages/:id
+// @route PUT /api/messages/:id
 // @access private
 const updateMessage = asyncHandler(async (req, res) => {
 
@@ -113,6 +116,47 @@ const updateMessage = asyncHandler(async (req, res) => {
         }
     }
 })
+
+// // @desc Modifier le pseudo d'un message
+// // @route PUT /api/messages/:id
+// // @access private
+// const updateMessagePseudo = asyncHandler(async (req, res) => {
+
+//     const message = await Message.findById(req.params.id);
+
+//     if (!message) {
+//         res.status(400);
+//         throw new Error("Aucun message trouvé");
+//     } else {
+//         if (!req.body.text) {
+
+//             res.status(400);
+//             throw new Error("Body de la requête vide");
+//         } else {
+
+//             const user = await User.findById(req.user.id);
+
+//             // Vérifier si l'utilisateur est connecté 
+//             if (!user) {
+//                 res.status(401);
+//                 throw new Error("Aucun utilisateur trouvé");
+//             }
+//             // Vérifier si l'utilisateur connectée est le propriétaire du message (éviter qu'un utilisateur ne modifie les données d'un autre)
+//             if (message.user.toString() !== user.id) {
+//                 res.status(401);
+//                 throw new Error("Vous n'êtes pas autorisé à modifier ce message");
+//             }
+
+//             const updatedMessage = await Message.findByIdAndUpdate(req.params.id, req.body,
+//                 {
+//                     new: true
+//                 })
+
+//             res.status(200).json(updatedMessage);
+//         }
+//     }
+// })
+
 
 
 // @desc Supprimer un message

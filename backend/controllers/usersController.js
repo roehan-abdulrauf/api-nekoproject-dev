@@ -69,9 +69,9 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new Error(errors.array()[0].msg);
     }
 
-    const { pseudo, mail, password } = req.body;
+    const { pseudo, mail, password, mailVerificationCode } = req.body;
 
-    if (!pseudo || !mail || !password) {
+    if (!pseudo || !mail || !password || !mailVerificationCode) {
 
         res.status(400);
         throw new Error('Please add all fields');
@@ -100,21 +100,25 @@ const registerUser = asyncHandler(async (req, res) => {
         pseudo,
         mail,
         password: hashedPassword,
+        mailVerificationCode,
+        bio: "Salut! J'utilise Neko Chat.",
     })
 
     if (user) {
         res.status(200);
+        io.emit("socket_user", user);
         res.json({
             _id: user.id,
             pseudo: user.pseudo,
             email: user.mail,
+            mailVerificationCode: user.mailVerificationCode,
             token: generateToken(user._id),
+            bio: user.bio,
         })
     } else {
         res.status(400);
         throw new Error('Données utilisateur non valides')
     }
-
 })
 
 
@@ -174,6 +178,7 @@ const login = asyncHandler(async (req, res) => {
                     token: generateToken(user._id),
                     isBanned: user.isBanned,
                     mailVerified: user.mailVerified,
+                    bio: user.bio,
                 })
             })
     } else {
@@ -211,23 +216,36 @@ const logout = asyncHandler(async (req, res) => {
 // @route PUT /api/users/mailVerified
 // @access public
 const mailVerified = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user.id);
+    // const user = await User.findById(req.user.id);
+
+    const { mail } = req.body;
+
+    // Vérifier si l'utilisateur existe
+    const user = await User.findOne({ mail });
 
     if (user) {
         User.findOneAndUpdate(
-            { _id: req.user._id },
+            { mail: mail },
             {
                 $set: {
                     mailVerified: 'true',
                 },
             }).then(() => {
                 res.status(200).json({
+                    _id: user.id,
+                    pseudo: user.pseudo,
+                    email: user.mail,
+                    isAdmin: user.isAdmin,
+                    isConnect: user.isConnect,
+                    token: generateToken(user._id),
+                    isBanned: user.isBanned,
+                    mailVerified: user.mailVerified,
                     message: 'Mail vérifié'
                 })
             })
     } else {
         res.status(400);
-        throw new Error('Aucun utilisateur trouvé');
+        throw new Error('Mail non vérifié');
     }
 })
 
@@ -333,7 +351,7 @@ const updateUser = asyncHandler(async (req, res) => {
                 {
                     new: true
                 })
-
+            io.emit("socket_user", updatedUsers);
             res.status(200).json(updatedUser)
         }
     }

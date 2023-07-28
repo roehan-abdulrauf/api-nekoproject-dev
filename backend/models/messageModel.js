@@ -11,6 +11,11 @@ const messageSchema = mongoose.Schema({
         required: true,
         ref: 'User',
     },
+    chatRoomId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'chatRoom',
+    },
     text: {
         type: String,
         required: [true, "Please add a text value"]
